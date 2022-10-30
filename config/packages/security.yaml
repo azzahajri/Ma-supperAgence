@@ -1,24 +1,29 @@
 security:
 
     providers:
-        in_memory:
-            memory:
-               users:
-                azza:
-                  password: azza
-                  roles: ROLE_ADMIN
+       from_database:
+           entity:
+               class: App\Entity\User
+               property: username
     #encoders:
        # Symfony\Component\Security\Core\User\InMemoryUser: plaintext
-
+    encoders:
+         App\Entity\User:
+             algorithm: bcrypt
+             cost: 12
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: in_memory
+            logout:
+                path: /logout
+                target: /
+           # provider: in_memory
            # http_basic: true
-            form_login: true
+            form_login:
+                check_path: login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
