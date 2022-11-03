@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Property;
 use App\Repository\PropertyRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Persistence\ObjectManager;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,8 +16,8 @@ use Twig\Environment;
 class PropertyController extends AbstractController
 {
     /**
-
-    @Var PropertyRepository
+     * @Var PropertyRepository
+     * @ORM\Column(type="string")
      */
     private $repository;
 
@@ -36,16 +37,16 @@ class PropertyController extends AbstractController
      */
     public function index(): Response
     {
-        $property= $this->repository->findAllVisible();
+        $properties= $this->repository->findAllVisible();
         return $this->render('property/index.html.twig', [
-            'current_menu' =>'properties']
-        );
+            'current_menu' =>'properties',
+            'properties' =>'properties'
+            ]);
     }
-    /**
-     * @Route("/biens/{slug} {id}", name="property.show", requirements={"slug": "[a-z0-9\-]*"})
-     * @param Property $property
-     * @return Response
-     */
+
+      /**
+       * @Route("/biens/{slug}-{id}", name="property.show", requirements={"slug": "[a-z0-9\-]*"})
+       */
    public function show(Property $property, string $slug): Response
    {
        if($property->getSlug() !== $slug)
