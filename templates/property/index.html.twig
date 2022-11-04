@@ -3,9 +3,12 @@
 {% block body %}
     <div class="container mt-4">
         <h1>voir tous nos biens</h1>
-        {% for property in properties %}
-         {% include 'property/property.html.twig' %}
-        {% endfor %}
+        <div class="row">
+            {% for property in properties %}
+                <div class="col mt-4">
+                    {% include 'property/_property.html.twig' %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
-
 {% endblock %}
